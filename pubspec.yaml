@@ -36,6 +36,7 @@ dependencies:
   firebase_storage: ^12.4.4
   flutter:
     sdk: flutter
+  flutter_screenutil: ^5.9.3
   google_sign_in: ^6.3.0
   lottie: ^3.3.1
 

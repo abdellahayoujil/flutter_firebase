@@ -27,14 +27,14 @@ class _LoginState extends State<Login> {
               const CustomLogoAuth(),
               Container(height: 20),
               const Text("Login",
-                  style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
+                  style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Colors.black)),
               Container(height: 10),
               const Text("Login To Continue Using The App",
                   style: TextStyle(color: Colors.grey)),
               Container(height: 20),
               const Text(
                 "Email",
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Colors.black),
               ),
               Container(height: 10),
               CustomTextForm(
@@ -42,7 +42,7 @@ class _LoginState extends State<Login> {
               Container(height: 10),
               const Text(
                 "Password",
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Colors.black),
               ),
               Container(height: 10),
               CustomTextForm(
@@ -53,7 +53,7 @@ class _LoginState extends State<Login> {
                 child: const Text(
                   "Forgot Password ?",
                   style: TextStyle(
-                    fontSize: 14,
+                    fontSize: 14, color: Colors.black
                   ),
                 ),
               ),
@@ -82,12 +82,13 @@ class _LoginState extends State<Login> {
           Container(height: 20),
           InkWell(
             onTap: () {
-              Navigator.of(context).pushNamed("signup") ; 
+              Navigator.of(context).pushReplacementNamed("signup") ; 
             },
             child: const Center(
               child: Text.rich(TextSpan(children: [
                 TextSpan(
                   text: "Don't Have An Account ? ",
+                  style: TextStyle( color: Colors.black)
                 ),
                 TextSpan(
                     text: "Register",
