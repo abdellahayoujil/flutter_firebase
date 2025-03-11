@@ -18,14 +18,22 @@ class _HomepageState extends State<Homepage> {
           actions: [
             IconButton(onPressed: () async{
               await FirebaseAuth.instance.signOut();
+              // ignore: use_build_context_synchronously
               Navigator.of(context).pushNamedAndRemoveUntil("login", (route) => false);
             }, 
-            icon: Icon(Icons.logout))
+            icon: const Icon(Icons.logout))
           ],
         ),
         body: ListView(
           children: [
-            // Text("How Are You", style: )
+            FirebaseAuth.instance.currentUser!.emailVerified
+            ? const Text("succesfuly verifed")
+            : MaterialButton(
+              textColor: Colors.white,
+              color: Colors.red,
+              onPressed: (){
+                FirebaseAuth.instance.currentUser!.sendEmailVerification();
+            },child: const Text("please verifed Email"),)
           ],
         ));
   }

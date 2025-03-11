@@ -27,8 +27,10 @@ class _MyAppState extends State<MyApp> {
   .authStateChanges()
   .listen((User? user) {
     if (user == null) {
+      // ignore: avoid_print
       print('-----------------------------User is currently signed out!');
     } else {
+      // ignore: avoid_print
       print('User is signed in!');
     }
   });
@@ -40,7 +42,10 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: FirebaseAuth.instance.currentUser == null ? Login() : Homepage(),
+      home: (FirebaseAuth.instance.currentUser != null && 
+      FirebaseAuth.instance.currentUser!.emailVerified) 
+      ? const Homepage() 
+      : const Login(),
       routes: {
         "signup" : (context) => const SignUp() , 
         "login" : (context) => const Login(),

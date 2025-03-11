@@ -16,8 +16,7 @@ class _LoginState extends State<Login> {
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
 
-GlobalKey<FormState> formstate = GlobalKey<FormState>();
-
+  GlobalKey<FormState> formstate = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -34,104 +33,138 @@ GlobalKey<FormState> formstate = GlobalKey<FormState>();
                 const CustomLogoAuth(),
                 Container(height: 20),
                 const Text("Login",
-                    style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Colors.black)),
+                    style: TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black)),
                 Container(height: 10),
                 const Text("Login To Continue Using The App",
                     style: TextStyle(color: Colors.grey)),
                 Container(height: 20),
                 const Text(
                   "Email",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Colors.black),
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                      color: Colors.black),
                 ),
                 Container(height: 10),
                 CustomTextForm(
-                    hinttext: "ُEnter Your Email", mycontroller: email, validator: (val) {
-                      if(val == ""){
-                        return "label is empty";
-                      }
-                    },),
+                  hinttext: "ُEnter Your Email",
+                  mycontroller: email,
+                  validator: (val) {
+                    if (val == "") {
+                      return "label is empty";
+                    }
+                    return null;
+                  },
+                ),
                 Container(height: 10),
                 const Text(
                   "Password",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Colors.black),
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                      color: Colors.black),
                 ),
                 Container(height: 10),
                 CustomTextForm(
-                    hinttext: "ُEnter Your Password", mycontroller: password, validator: (val) {
-                      if(val == ""){
-                        return "label is empty";
-                      }
-                    },),
+                  hinttext: "ُEnter Your Password",
+                  mycontroller: password,
+                  validator: (val) {
+                    if (val == "") {
+                      return "label is empty";
+                    }
+                    return null;
+                  },
+                ),
                 Container(
                   margin: const EdgeInsets.only(top: 10, bottom: 20),
                   alignment: Alignment.topRight,
                   child: const Text(
                     "Forgot Password ?",
-                    style: TextStyle(
-                      fontSize: 14, color: Colors.black
-                    ),
+                    style: TextStyle(fontSize: 14, color: Colors.black),
                   ),
                 ),
               ],
             ),
           ),
           CustomButtonAuth(
-  title: "login",
-  onPressed: () async {
-    if(formstate.currentState!.validate()){
-          try {
-      final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: email.text,
-        password: password.text
-      );
-      Navigator.of(context).pushReplacementNamed("homepage");
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found') {
-        print('No user found for that email: ${e.message}');
-        AwesomeDialog(
-          context: context,
-          dialogType: DialogType.error,
-          animType: AnimType.rightSlide,
-          title: 'Error',
-          desc: 'No user found for that email.',
-        ).show();
-      } else if (e.code == 'wrong-password') {  
-        print('Wrong password: ${e.message}');
-        AwesomeDialog(
-          context: context,
-          dialogType: DialogType.error,
-          animType: AnimType.rightSlide,
-          title: 'Error',
-          desc: 'Wrong password provided.',
-        ).show();
-      } else {
-        print('Other error: ${e.code} - ${e.message}');
-        AwesomeDialog(
-          context: context,
-          dialogType: DialogType.error,
-          animType: AnimType.rightSlide,
-          title: 'Error',
-          desc: 'Login failed: ${e.message}',
-        ).show();
-      }
-    } catch (e) {
-      print('General error: $e');
-      AwesomeDialog(
-        context: context,
-        dialogType: DialogType.error,
-        animType: AnimType.rightSlide,
-        title: 'Error',
-        desc: 'An unexpected error occurred.',
-      )..show();
-    }
-    }else{
-      print("not valid");
-    }
-  },
-),
-
+            title: "login",
+            onPressed: () async {
+              if (formstate.currentState!.validate()) {
+                try {
+                  final credential = await FirebaseAuth.instance
+                      .signInWithEmailAndPassword(
+                          email: email.text, password: password.text);
+                  if(credential.user!.emailVerified){
+                    Navigator.of(context).pushReplacementNamed("homepage");
+                  }
+                  else{
+                    FirebaseAuth.instance.currentUser!.sendEmailVerification();
+                     AwesomeDialog(
+                      // ignore: use_build_context_synchronously
+                      context: context,
+                      dialogType: DialogType.error,
+                      animType: AnimType.rightSlide,
+                      title: 'Error',
+                      desc: 'verify your email please.',
+                    ).show();
+                  }
+                } on FirebaseAuthException catch (e) {
+                  if (e.code == 'user-not-found') {
+                    // ignore: avoid_print
+                    print('No user found for that email: ${e.message}');
+                    AwesomeDialog(
+                      // ignore: use_build_context_synchronously
+                      context: context,
+                      dialogType: DialogType.error,
+                      animType: AnimType.rightSlide,
+                      title: 'Error',
+                      desc: 'No user found for that email.',
+                    ).show();
+                  } else if (e.code == 'wrong-password') {
+                    // ignore: avoid_print
+                    print('Wrong password: ${e.message}');
+                    AwesomeDialog(
+                      // ignore: use_build_context_synchronously
+                      context: context,
+                      dialogType: DialogType.error,
+                      animType: AnimType.rightSlide,
+                      title: 'Error',
+                      desc: 'Wrong password provided.',
+                    ).show();
+                  } else {
+                    // ignore: avoid_print
+                    print('Other error: ${e.code} - ${e.message}');
+                    AwesomeDialog(
+                      // ignore: use_build_context_synchronously
+                      context: context,
+                      dialogType: DialogType.error,
+                      animType: AnimType.rightSlide,
+                      title: 'Error',
+                      desc: 'Login failed: ${e.message}',
+                    ).show();
+                  }
+                } catch (e) {
+                  // ignore: avoid_print
+                  print('General error: $e');
+                  AwesomeDialog(
+                    // ignore: use_build_context_synchronously
+                    context: context,
+                    dialogType: DialogType.error,
+                    animType: AnimType.rightSlide,
+                    title: 'Error',
+                    desc: 'An unexpected error occurred.',
+                  ).show();
+                }
+              } else {
+                // ignore: avoid_print
+                print("not valid");
+              }
+            },
+          ),
           Container(height: 20),
-
           MaterialButton(
               height: 40,
               shape: RoundedRectangleBorder(
@@ -152,14 +185,13 @@ GlobalKey<FormState> formstate = GlobalKey<FormState>();
           Container(height: 20),
           InkWell(
             onTap: () {
-              Navigator.of(context).pushReplacementNamed("signup") ; 
+              Navigator.of(context).pushReplacementNamed("signup");
             },
             child: const Center(
               child: Text.rich(TextSpan(children: [
                 TextSpan(
-                  text: "Don't Have An Account ? ",
-                  style: TextStyle( color: Colors.black)
-                ),
+                    text: "Don't Have An Account ? ",
+                    style: TextStyle(color: Colors.black)),
                 TextSpan(
                     text: "Register",
                     style: TextStyle(

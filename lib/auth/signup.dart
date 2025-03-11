@@ -33,106 +33,135 @@ class _SignUpState extends State<SignUp> {
                 const CustomLogoAuth(),
                 Container(height: 20),
                 const Text("SignUp",
-                    style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Colors.black)),
+                    style: TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black)),
                 Container(height: 10),
                 const Text("SignUp To Continue Using The App",
                     style: TextStyle(color: Colors.grey)),
                 Container(height: 20),
                 const Text(
                   "username",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Colors.black),
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                      color: Colors.black),
                 ),
                 Container(height: 10),
                 CustomTextForm(
-                    hinttext: "ُEnter Your username", mycontroller: username, validator: (val) {
-                      if(val == ""){
-                        return "label is empty";
-                      }
-                    },),
+                  hinttext: "ُEnter Your username",
+                  mycontroller: username,
+                  validator: (val) {
+                    if (val == "") {
+                      return "label is empty";
+                    }
+                    return null;
+                  },
+                ),
                 Container(height: 20),
                 const Text(
                   "Email",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Colors.black),
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                      color: Colors.black),
                 ),
                 Container(height: 10),
                 CustomTextForm(
-                    hinttext: "ُEnter Your Email", mycontroller: email ,validator: (val) {
-                      if(val == ""){
-                        return "label is empty";
-                      }
-                    },),
+                  hinttext: "ُEnter Your Email",
+                  mycontroller: email,
+                  validator: (val) {
+                    if (val == "") {
+                      return "label is empty";
+                    }
+                    return null;
+                  },
+                ),
                 Container(height: 10),
                 const Text(
                   "Password",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Colors.black),
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                      color: Colors.black),
                 ),
                 Container(height: 10),
                 CustomTextForm(
-                    hinttext: "ُEnter Your Password", mycontroller: password, validator: (val) {
-                      if(val == ""){
-                        return "label is empty";
-                      }
-                    },),
+                  hinttext: "ُEnter Your Password",
+                  mycontroller: password,
+                  validator: (val) {
+                    if (val == "") {
+                      return "label is empty";
+                    }
+                    return null;
+                  },
+                ),
                 Container(
                   margin: const EdgeInsets.only(top: 10, bottom: 20),
                   alignment: Alignment.topRight,
                   child: const Text(
                     "Forgot Password ?",
-                    style: TextStyle(
-                      fontSize: 14, color: Colors.black
-                    ),
+                    style: TextStyle(fontSize: 14, color: Colors.black),
                   ),
                 ),
               ],
             ),
           ),
-          CustomButtonAuth(title: "SignUp", onPressed: () async {
-            if(formstate.currentState!.validate()){
-                          try {
-              final credential = await FirebaseAuth.instance.
-              createUserWithEmailAndPassword(
-                email: email.text,
-                password: password.text,
-              );
-              Navigator.of(context).pushReplacementNamed("homepage");
-            } on FirebaseAuthException catch (e) {
-              if (e.code == 'weak-password') {
-                print('The password provided is too weak.');
-                AwesomeDialog(
-                  context: context,
-                  dialogType: DialogType.error,
-                  animType: AnimType.rightSlide,
-                  title: 'Error',
-                  desc: 'The password provided is too weak.',
-                ).show();
-              } else if (e.code == 'email-already-in-use') {
-                print('The account already exists for that email.');
-                AwesomeDialog(
-                  context: context,
-                  dialogType: DialogType.error,
-                  animType: AnimType.rightSlide,
-                  title: 'Error',
-                  desc: 'The account already exists for that email.',
-                ).show();
-              }
-            } catch (e) {
-              print(e);
-            }
-            }
-          }),
+          CustomButtonAuth(
+              title: "SignUp",
+              onPressed: () async {
+                if (formstate.currentState!.validate()) {
+                  try {
+                    final credential = await FirebaseAuth.instance
+                        .createUserWithEmailAndPassword(
+                      email: email.text,
+                      password: password.text,
+                    );
+                    FirebaseAuth.instance.currentUser!.sendEmailVerification();
+                    // ignore: use_build_context_synchronously
+                    Navigator.of(context).pushReplacementNamed("login");
+                  } on FirebaseAuthException catch (e) {
+                    if (e.code == 'weak-password') {
+                      // ignore: avoid_print
+                      print('The password provided is too weak.');
+                      AwesomeDialog(
+                        // ignore: use_build_context_synchronously
+                        context: context,
+                        dialogType: DialogType.error,
+                        animType: AnimType.rightSlide,
+                        title: 'Error',
+                        desc: 'The password provided is too weak.',
+                      ).show();
+                    } else if (e.code == 'email-already-in-use') {
+                      // ignore: avoid_print
+                      print('The account already exists for that email.');
+                      AwesomeDialog(
+                        // ignore: use_build_context_synchronously
+                        context: context,
+                        dialogType: DialogType.error,
+                        animType: AnimType.rightSlide,
+                        title: 'Error',
+                        desc: 'The account already exists for that email.',
+                      ).show();
+                    }
+                  } catch (e) {
+                    // ignore: avoid_print
+                    print(e);
+                  }
+                }
+              }),
           Container(height: 20),
-
           Container(height: 20),
           InkWell(
             onTap: () {
-              Navigator.of(context).pushNamed("login") ; 
+              Navigator.of(context).pushNamed("login");
             },
             child: const Center(
               child: Text.rich(TextSpan(children: [
                 TextSpan(
-                  text: "Have An Account ? ",
-                  style: TextStyle(color: Colors.black)
-                ),
+                    text: "Have An Account ? ",
+                    style: TextStyle(color: Colors.black)),
                 TextSpan(
                     text: "Login",
                     style: TextStyle(
