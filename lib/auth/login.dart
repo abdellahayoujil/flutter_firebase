@@ -19,26 +19,26 @@ class _LoginState extends State<Login> {
 
   GlobalKey<FormState> formstate = GlobalKey<FormState>();
 
-
   Future signInWithGoogle() async {
+    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
-  final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+    if (googleUser == null) {
+      return;
+    }
 
-  if(googleUser == null){
-    return ;
+    final GoogleSignInAuthentication? googleAuth =
+        await googleUser?.authentication;
+
+    final credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth?.accessToken,
+      idToken: googleAuth?.idToken,
+    );
+
+    await FirebaseAuth.instance.signInWithCredential(credential);
+
+    // ignore: use_build_context_synchronously
+    Navigator.of(context).pushNamedAndRemoveUntil("homepage", (route) => false);
   }
-
-  final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
-
-  final credential = GoogleAuthProvider.credential(
-    accessToken: googleAuth?.accessToken,
-    idToken: googleAuth?.idToken,
-  );
-
-   await FirebaseAuth.instance.signInWithCredential(credential);
-
-  Navigator.of(context).pushNamedAndRemoveUntil("homepage", (route) => false);
-}
 
   @override
   Widget build(BuildContext context) {
@@ -100,12 +100,49 @@ class _LoginState extends State<Login> {
                     return null;
                   },
                 ),
-                Container(
-                  margin: const EdgeInsets.only(top: 10, bottom: 20),
-                  alignment: Alignment.topRight,
-                  child: const Text(
-                    "Forgot Password ?",
-                    style: TextStyle(fontSize: 14, color: Colors.black),
+                InkWell(
+                  onTap: () async {
+                    if(email.text == ""){
+                      AwesomeDialog(
+                      // ignore: use_build_context_synchronously
+                      context: context,
+                      dialogType: DialogType.error,
+                      animType: AnimType.rightSlide,
+                      title: 'Error',
+                      desc: 'enter your email please.',
+                    ).show();
+                    return ;
+                    }
+                    try{
+                      await FirebaseAuth.instance
+                        .sendPasswordResetEmail(email: email.text);
+                        AwesomeDialog(
+                      // ignore: use_build_context_synchronously
+                      context: context,
+                      dialogType: DialogType.info,
+                      animType: AnimType.rightSlide,
+                      title: 'info',
+                      desc: 'verify your email we send message to update your password.',
+                    ).show();
+                    }catch(e){
+                        AwesomeDialog(
+                      // ignore: use_build_context_synchronously
+                      context: context,
+                      dialogType: DialogType.error,
+                      animType: AnimType.rightSlide,
+                      title: 'Error',
+                      desc: 'No user found for that email. $e',
+                    ).show();
+                    }
+                        
+                  },
+                  child: Container(
+                    margin: const EdgeInsets.only(top: 10, bottom: 20),
+                    alignment: Alignment.topRight,
+                    child: const Text(
+                      "Forgot Password ?",
+                      style: TextStyle(fontSize: 14, color: Colors.black),
+                    ),
                   ),
                 ),
               ],
@@ -119,12 +156,12 @@ class _LoginState extends State<Login> {
                   final credential = await FirebaseAuth.instance
                       .signInWithEmailAndPassword(
                           email: email.text, password: password.text);
-                  if(credential.user!.emailVerified){
+                  if (credential.user!.emailVerified) {
+                    // ignore: use_build_context_synchronously
                     Navigator.of(context).pushReplacementNamed("homepage");
-                  }
-                  else{
+                  } else {
                     FirebaseAuth.instance.currentUser!.sendEmailVerification();
-                     AwesomeDialog(
+                    AwesomeDialog(
                       // ignore: use_build_context_synchronously
                       context: context,
                       dialogType: DialogType.error,
