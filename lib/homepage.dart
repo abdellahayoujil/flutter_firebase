@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class Homepage extends StatefulWidget {
   const Homepage({super.key});
@@ -17,6 +18,8 @@ class _HomepageState extends State<Homepage> {
           title: const Text('Firebase Install'),
           actions: [
             IconButton(onPressed: () async{
+              GoogleSignIn googleSignIn = GoogleSignIn();
+              googleSignIn.disconnect();
               await FirebaseAuth.instance.signOut();
               // ignore: use_build_context_synchronously
               Navigator.of(context).pushNamedAndRemoveUntil("login", (route) => false);

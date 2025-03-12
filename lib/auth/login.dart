@@ -1,6 +1,7 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import '../components/custombuttonauth.dart';
 import '../components/customlogoauth.dart';
 import '../components/textformfield.dart';
@@ -17,6 +18,27 @@ class _LoginState extends State<Login> {
   TextEditingController password = TextEditingController();
 
   GlobalKey<FormState> formstate = GlobalKey<FormState>();
+
+
+  Future signInWithGoogle() async {
+
+  final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+  if(googleUser == null){
+    return ;
+  }
+
+  final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
+
+  final credential = GoogleAuthProvider.credential(
+    accessToken: googleAuth?.accessToken,
+    idToken: googleAuth?.idToken,
+  );
+
+   await FirebaseAuth.instance.signInWithCredential(credential);
+
+  Navigator.of(context).pushNamedAndRemoveUntil("homepage", (route) => false);
+}
 
   @override
   Widget build(BuildContext context) {
@@ -171,7 +193,9 @@ class _LoginState extends State<Login> {
                   borderRadius: BorderRadius.circular(20)),
               color: Colors.red[700],
               textColor: Colors.white,
-              onPressed: () {},
+              onPressed: () {
+                signInWithGoogle();
+              },
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
