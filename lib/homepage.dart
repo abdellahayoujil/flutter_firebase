@@ -15,10 +15,13 @@ class Homepage extends StatefulWidget {
 class _HomepageState extends State<Homepage> {
   List<QueryDocumentSnapshot> data = [];
 
+  bool isLoading = true;
+
   getData() async {
     QuerySnapshot querySnapshot =
         await FirebaseFirestore.instance.collection('categoris').get();
     data.addAll(querySnapshot.docs);
+    isLoading = false;
     setState(() {
       
     });
@@ -55,14 +58,14 @@ class _HomepageState extends State<Homepage> {
                 icon: const Icon(Icons.logout))
           ],
         ),
-        body: GridView.builder(
+        body: isLoading ? const Center(child: Text("Loading ...")) : GridView.builder(
           itemCount: data.length,
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2, mainAxisExtent: 160),
           itemBuilder: (BuildContext context, int index) {
             return Card(
               child: Container(
-                padding: EdgeInsets.all(15),
+                padding: const EdgeInsets.all(15),
                 child: Column(
                   children: [
                     Image.asset(
