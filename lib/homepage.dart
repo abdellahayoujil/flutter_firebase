@@ -48,7 +48,7 @@ class _HomepageState extends State<Homepage> {
               color: Colors.red,
               onPressed: (){
                 FirebaseAuth.instance.currentUser!.sendEmailVerification();
-            },child: const Text("please verifed Email"),)*/
+            },child: const Text("please verifed Email"),)
 
             Card(
               child: Container(
@@ -63,7 +63,7 @@ class _HomepageState extends State<Homepage> {
                   ],
                 ),
               ),
-            )
+            )*/
           ],
         ));
   }

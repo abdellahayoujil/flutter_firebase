@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_flutter/components/custombuttonauth.dart';
 import 'package:firebase_flutter/components/customformfield.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +12,22 @@ class Addcategoris extends StatefulWidget {
 
 class _AddcategorisState extends State<Addcategoris> {
   TextEditingController name = TextEditingController();
+
+  CollectionReference categoris =
+      FirebaseFirestore.instance.collection('categoris');
+
+  Future<void> addcategoris() async {
+    if (formstate.currentState!.validate()) {
+      try {
+        DocumentReference res = await categoris.add({
+          'name': name.text,
+        });
+        Navigator.of(context).pushReplacementNamed("homepage");
+      } catch (e) {
+        print("error ================= $e");
+      }
+    }
+  }
 
   GlobalKey<FormState> formstate = GlobalKey<FormState>();
   @override
@@ -33,9 +50,12 @@ class _AddcategorisState extends State<Addcategoris> {
                       return null;
                     }),
               ),
-              CustomButtonAuth(title: "Add", onPressed: () {
-                
-              },)
+              CustomButtonAuth(
+                title: "Add",
+                onPressed: () {
+                  addcategoris();
+                },
+              )
             ],
           )),
     );
