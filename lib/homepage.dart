@@ -1,4 +1,5 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_flutter/constans.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +13,23 @@ class Homepage extends StatefulWidget {
 }
 
 class _HomepageState extends State<Homepage> {
+  List<QueryDocumentSnapshot> data = [];
+
+  getData() async {
+    QuerySnapshot querySnapshot =
+        await FirebaseFirestore.instance.collection('categoris').get();
+    data.addAll(querySnapshot.docs);
+    setState(() {
+      
+    });
+  }
+
+  @override
+  void initState() {
+    getData();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,11 +55,28 @@ class _HomepageState extends State<Homepage> {
                 icon: const Icon(Icons.logout))
           ],
         ),
-        body: GridView(
+        body: GridView.builder(
+          itemCount: data.length,
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2, mainAxisExtent: 160),
-          children: [
-            /*FirebaseAuth.instance.currentUser!.emailVerified
+          itemBuilder: (BuildContext context, int index) {
+            return Card(
+              child: Container(
+                padding: EdgeInsets.all(15),
+                child: Column(
+                  children: [
+                    Image.asset(
+                      "images/fl.png",
+                      height: 100,
+                    ),
+                    Text("${data[index]['name']}")
+                  ],
+                ),
+              ),
+            );
+          },
+
+          /*FirebaseAuth.instance.currentUser!.emailVerified
             ? const Text("succesfuly verifed")
             : MaterialButton(
               textColor: Colors.white,
@@ -64,7 +99,6 @@ class _HomepageState extends State<Homepage> {
                 ),
               ),
             )*/
-          ],
         ));
   }
 }
