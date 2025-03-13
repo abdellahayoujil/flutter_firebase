@@ -171,6 +171,8 @@ class _LoginState extends State<Login> {
                           // ignore: use_build_context_synchronously
                           Navigator.of(context)
                               .pushReplacementNamed("homepage");
+                              isLoading = false;
+                        setState(() {});
                         } else {
                           FirebaseAuth.instance.currentUser!
                               .sendEmailVerification();
@@ -182,6 +184,8 @@ class _LoginState extends State<Login> {
                             title: 'Error',
                             desc: 'verify your email please.',
                           ).show();
+                          isLoading = false;
+                        setState(() {});
                         }
                       } on FirebaseAuthException catch (e) {
                         if (e.code == 'user-not-found') {
@@ -195,6 +199,8 @@ class _LoginState extends State<Login> {
                             title: 'Error',
                             desc: 'No user found for that email.',
                           ).show();
+                          isLoading = false;
+                        setState(() {});
                         } else if (e.code == 'wrong-password') {
                           // ignore: avoid_print
                           print('Wrong password: ${e.message}');
@@ -206,6 +212,8 @@ class _LoginState extends State<Login> {
                             title: 'Error',
                             desc: 'Wrong password provided.',
                           ).show();
+                          isLoading = false;
+                        setState(() {});
                         } else {
                           // ignore: avoid_print
                           print('Other error: ${e.code} - ${e.message}');
@@ -217,6 +225,8 @@ class _LoginState extends State<Login> {
                             title: 'Error',
                             desc: 'Login failed: ${e.message}',
                           ).show();
+                          isLoading = false;
+                        setState(() {});
                         }
                       } catch (e) {
                         // ignore: avoid_print
@@ -229,6 +239,8 @@ class _LoginState extends State<Login> {
                           title: 'Error',
                           desc: 'An unexpected error occurred.',
                         ).show();
+                      isLoading = false;
+                        setState(() {});
                       }
                     } else {
                       // ignore: avoid_print

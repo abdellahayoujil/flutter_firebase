@@ -1,4 +1,5 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_flutter/constans.dart';
@@ -63,17 +64,37 @@ class _HomepageState extends State<Homepage> {
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2, mainAxisExtent: 160),
           itemBuilder: (BuildContext context, int index) {
-            return Card(
-              child: Container(
-                padding: const EdgeInsets.all(15),
-                child: Column(
-                  children: [
-                    Image.asset(
-                      "images/fl.png",
-                      height: 100,
-                    ),
-                    Text("${data[index]['name']}")
-                  ],
+            return InkWell(
+              onLongPress: () {
+                AwesomeDialog(
+                            // ignore: use_build_context_synchronously
+                            context: context,
+                            dialogType: DialogType.warning,
+                            animType: AnimType.rightSlide,
+                            title: 'Error',
+                            desc: 'are you sure to delete!',
+                            btnCancelOnPress: () {
+                              // ignore: avoid_print
+                              print("cancel");
+                            },
+                            btnOkOnPress: () async{
+                              await FirebaseFirestore.instance.collection('categoris').doc(data[index].id).delete();
+                              Navigator.of(context).pushReplacementNamed("homepage");
+                            }
+                          ).show();
+              },
+              child: Card(
+                child: Container(
+                  padding: const EdgeInsets.all(15),
+                  child: Column(
+                    children: [
+                      Image.asset(
+                        "images/fl.png",
+                        height: 100,
+                      ),
+                      Text("${data[index]['name']}")
+                    ],
+                  ),
                 ),
               ),
             );
