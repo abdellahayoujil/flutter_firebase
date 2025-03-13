@@ -1,3 +1,4 @@
+import 'package:firebase_flutter/constans.dart';
 import 'package:flutter/material.dart';
 
 class CustomButtonAuth extends StatelessWidget {
@@ -10,7 +11,7 @@ class CustomButtonAuth extends StatelessWidget {
     return MaterialButton(
       height: 40,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-      color: Colors.orange,
+      color: MyColors.myYellow,
       textColor: Colors.white,
       onPressed: onPressed,
       child: Text(title),

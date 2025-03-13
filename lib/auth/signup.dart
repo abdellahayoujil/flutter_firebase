@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_flutter/components/custombuttonauth.dart';
 import 'package:firebase_flutter/components/customlogoauth.dart';
 import 'package:firebase_flutter/components/textformfield.dart';
+import 'package:firebase_flutter/constans.dart';
 import 'package:flutter/material.dart';
 
 class SignUp extends StatefulWidget {
@@ -36,7 +37,7 @@ class _SignUpState extends State<SignUp> {
                     style: TextStyle(
                         fontSize: 30,
                         fontWeight: FontWeight.bold,
-                        color: Colors.black)),
+                        color: MyColors.myblack)),
                 Container(height: 10),
                 const Text("SignUp To Continue Using The App",
                     style: TextStyle(color: Colors.grey)),
@@ -46,7 +47,7 @@ class _SignUpState extends State<SignUp> {
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 18,
-                      color: Colors.black),
+                      color: MyColors.myblack),
                 ),
                 Container(height: 10),
                 CustomTextForm(
@@ -65,7 +66,7 @@ class _SignUpState extends State<SignUp> {
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 18,
-                      color: Colors.black),
+                      color: MyColors.myblack),
                 ),
                 Container(height: 10),
                 CustomTextForm(
@@ -84,7 +85,7 @@ class _SignUpState extends State<SignUp> {
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 18,
-                      color: Colors.black),
+                      color: MyColors.myblack),
                 ),
                 Container(height: 10),
                 CustomTextForm(
@@ -153,11 +154,11 @@ class _SignUpState extends State<SignUp> {
               child: Text.rich(TextSpan(children: [
                 TextSpan(
                     text: "Have An Account ? ",
-                    style: TextStyle(color: Colors.black)),
+                    style: TextStyle(color: MyColors.myblack)),
                 TextSpan(
                     text: "Login",
                     style: TextStyle(
-                        color: Colors.orange, fontWeight: FontWeight.bold)),
+                        color: MyColors.myYellow, fontWeight: FontWeight.bold)),
               ])),
             ),
           )

@@ -1,5 +1,6 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_flutter/constans.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import '../components/custombuttonauth.dart';
@@ -58,7 +59,7 @@ class _LoginState extends State<Login> {
                     style: TextStyle(
                         fontSize: 30,
                         fontWeight: FontWeight.bold,
-                        color: Colors.black)),
+                        color: MyColors.myblack)),
                 Container(height: 10),
                 const Text("Login To Continue Using The App",
                     style: TextStyle(color: Colors.grey)),
@@ -68,7 +69,7 @@ class _LoginState extends State<Login> {
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 18,
-                      color: Colors.black),
+                      color: MyColors.myblack),
                 ),
                 Container(height: 10),
                 CustomTextForm(
@@ -87,7 +88,7 @@ class _LoginState extends State<Login> {
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 18,
-                      color: Colors.black),
+                      color: MyColors.myblack),
                 ),
                 Container(height: 10),
                 CustomTextForm(
@@ -100,48 +101,48 @@ class _LoginState extends State<Login> {
                     return null;
                   },
                 ),
-                InkWell(
-                  onTap: () async {
-                    if(email.text == ""){
-                      AwesomeDialog(
-                      // ignore: use_build_context_synchronously
-                      context: context,
-                      dialogType: DialogType.error,
-                      animType: AnimType.rightSlide,
-                      title: 'Error',
-                      desc: 'enter your email please.',
-                    ).show();
-                    return ;
-                    }
-                    try{
-                      await FirebaseAuth.instance
-                        .sendPasswordResetEmail(email: email.text);
+                Container(
+                  margin: const EdgeInsets.only(top: 10, bottom: 20),
+                  alignment: Alignment.topRight,
+                  child: InkWell(
+                    onTap: () async {
+                      if (email.text == "") {
                         AwesomeDialog(
-                      // ignore: use_build_context_synchronously
-                      context: context,
-                      dialogType: DialogType.info,
-                      animType: AnimType.rightSlide,
-                      title: 'info',
-                      desc: 'verify your email we send message to update your password.',
-                    ).show();
-                    }catch(e){
+                          // ignore: use_build_context_synchronously
+                          context: context,
+                          dialogType: DialogType.error,
+                          animType: AnimType.rightSlide,
+                          title: 'Error',
+                          desc: 'enter your email please.',
+                        ).show();
+                        return;
+                      }
+                      try {
+                        await FirebaseAuth.instance
+                            .sendPasswordResetEmail(email: email.text);
                         AwesomeDialog(
-                      // ignore: use_build_context_synchronously
-                      context: context,
-                      dialogType: DialogType.error,
-                      animType: AnimType.rightSlide,
-                      title: 'Error',
-                      desc: 'No user found for that email. $e',
-                    ).show();
-                    }
-                        
-                  },
-                  child: Container(
-                    margin: const EdgeInsets.only(top: 10, bottom: 20),
-                    alignment: Alignment.topRight,
+                          // ignore: use_build_context_synchronously
+                          context: context,
+                          dialogType: DialogType.info,
+                          animType: AnimType.rightSlide,
+                          title: 'info',
+                          desc:
+                              'verify your email we send message to update your password.',
+                        ).show();
+                      } catch (e) {
+                        AwesomeDialog(
+                          // ignore: use_build_context_synchronously
+                          context: context,
+                          dialogType: DialogType.error,
+                          animType: AnimType.rightSlide,
+                          title: 'Error',
+                          desc: 'No user found for that email. $e',
+                        ).show();
+                      }
+                    },
                     child: const Text(
                       "Forgot Password ?",
-                      style: TextStyle(fontSize: 14, color: Colors.black),
+                      style: TextStyle(fontSize: 14, color: MyColors.myblack),
                     ),
                   ),
                 ),
@@ -228,8 +229,8 @@ class _LoginState extends State<Login> {
               height: 40,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20)),
-              color: Colors.red[700],
-              textColor: Colors.white,
+              color: MyColors.myred,
+              textColor: MyColors.myWhite,
               onPressed: () {
                 signInWithGoogle();
               },
@@ -252,11 +253,11 @@ class _LoginState extends State<Login> {
               child: Text.rich(TextSpan(children: [
                 TextSpan(
                     text: "Don't Have An Account ? ",
-                    style: TextStyle(color: Colors.black)),
+                    style: TextStyle(color: MyColors.myblack)),
                 TextSpan(
                     text: "Register",
                     style: TextStyle(
-                        color: Colors.orange, fontWeight: FontWeight.bold)),
+                        color: MyColors.myYellow, fontWeight: FontWeight.bold)),
               ])),
             ),
           )
