@@ -1,33 +1,38 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_flutter/components/custombuttonauth.dart';
 import 'package:firebase_flutter/components/customformfield.dart';
 import 'package:flutter/material.dart';
 
-class Addcategoris extends StatefulWidget {
-  const Addcategoris({super.key});
+class Updatecategoris extends StatefulWidget {
+  final String docid;
+  final String oldname;
+  const Updatecategoris({super.key, required this.docid, required this.oldname});
 
   @override
-  State<Addcategoris> createState() => _AddcategorisState();
+  State<Updatecategoris> createState() => _UpdatecategorisState();
 }
 
-class _AddcategorisState extends State<Addcategoris> {
+class _UpdatecategorisState extends State<Updatecategoris> {
   TextEditingController name = TextEditingController();
 
+
+  GlobalKey<FormState> formstate = GlobalKey<FormState>();
   CollectionReference categoris =
       FirebaseFirestore.instance.collection('categoris');
 
   bool isLoading = false;
 
-  Future<void> addcategoris() async {
+  // ignore: non_constant_identifier_names
+  Updatecategoris() async {
     if (formstate.currentState!.validate()) {
       try {
         isLoading = true;
         setState(() {
         });
         // ignore: unused_local_variable
-        DocumentReference res = await categoris.add(
-            {'name': name.text, 'id': FirebaseAuth.instance.currentUser!.uid});
+        await categoris.doc(widget.docid).update({
+          "name" : name.text
+        });
         // ignore: use_build_context_synchronously
         Navigator.of(context).pushNamedAndRemoveUntil("homepage", (route) => false);
       } catch (e) {
@@ -39,8 +44,12 @@ class _AddcategorisState extends State<Addcategoris> {
       }
     }
   }
+  @override
+  void initState() {
+    super.initState();
+    name.text = widget.oldname;
+  }
 
-  GlobalKey<FormState> formstate = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -65,7 +74,7 @@ class _AddcategorisState extends State<Addcategoris> {
               CustomButtonAuth(
                 title: "Add",
                 onPressed: () {
-                  addcategoris();
+                  Updatecategoris();
                 },
               )
             ],

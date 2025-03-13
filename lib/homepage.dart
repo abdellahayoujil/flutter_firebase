@@ -2,6 +2,7 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_flutter/Categoris/update.dart';
 import 'package:firebase_flutter/constans.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -19,13 +20,13 @@ class _HomepageState extends State<Homepage> {
   bool isLoading = true;
 
   getData() async {
-    QuerySnapshot querySnapshot =
-        await FirebaseFirestore.instance.collection('categoris').get();
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection('categoris')
+        .where('id', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+        .get();
     data.addAll(querySnapshot.docs);
     isLoading = false;
-    setState(() {
-      
-    });
+    setState(() {});
   }
 
   @override
@@ -59,48 +60,57 @@ class _HomepageState extends State<Homepage> {
                 icon: const Icon(Icons.logout))
           ],
         ),
-        body: isLoading ? const Center(child: Text("Loading ...")) : GridView.builder(
-          itemCount: data.length,
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2, mainAxisExtent: 160),
-          itemBuilder: (BuildContext context, int index) {
-            return InkWell(
-              onLongPress: () {
-                AwesomeDialog(
+        body: isLoading
+            ? const Center(child: Text("Loading ..."))
+            : GridView.builder(
+                itemCount: data.length,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2, mainAxisExtent: 160),
+                itemBuilder: (BuildContext context, int index) {
+                  return InkWell(
+                    onLongPress: () {
+                      AwesomeDialog(
+                          // ignore: use_build_context_synchronously
+                          context: context,
+                          dialogType: DialogType.warning,
+                          animType: AnimType.rightSlide,
+                          title: 'Error',
+                          desc: 'what do you want ! ',
+                          btnCancelText: "delete",
+                          btnOkText: "update",
+                          btnCancelOnPress: () async {
+                            await FirebaseFirestore.instance
+                                .collection('categoris')
+                                .doc(data[index].id)
+                                .delete();
                             // ignore: use_build_context_synchronously
-                            context: context,
-                            dialogType: DialogType.warning,
-                            animType: AnimType.rightSlide,
-                            title: 'Error',
-                            desc: 'are you sure to delete!',
-                            btnCancelOnPress: () {
-                              // ignore: avoid_print
-                              print("cancel");
-                            },
-                            btnOkOnPress: () async{
-                              await FirebaseFirestore.instance.collection('categoris').doc(data[index].id).delete();
-                              Navigator.of(context).pushReplacementNamed("homepage");
-                            }
-                          ).show();
-              },
-              child: Card(
-                child: Container(
-                  padding: const EdgeInsets.all(15),
-                  child: Column(
-                    children: [
-                      Image.asset(
-                        "images/fl.png",
-                        height: 100,
+                            Navigator.of(context)
+                                .pushReplacementNamed("homepage");
+                          },
+                          btnOkOnPress: () async {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => Updatecategoris(
+                                    docid: data[index].id, oldname : data[index]['name'])));
+                          }).show();
+                    },
+                    child: Card(
+                      child: Container(
+                        padding: const EdgeInsets.all(15),
+                        child: Column(
+                          children: [
+                            Image.asset(
+                              "images/fl.png",
+                              height: 100,
+                            ),
+                            Text("${data[index]['name']}")
+                          ],
+                        ),
                       ),
-                      Text("${data[index]['name']}")
-                    ],
-                  ),
-                ),
-              ),
-            );
-          },
+                    ),
+                  );
+                },
 
-          /*FirebaseAuth.instance.currentUser!.emailVerified
+                /*FirebaseAuth.instance.currentUser!.emailVerified
             ? const Text("succesfuly verifed")
             : MaterialButton(
               textColor: Colors.white,
@@ -123,6 +133,6 @@ class _HomepageState extends State<Homepage> {
                 ),
               ),
             )*/
-        ));
+              ));
   }
 }
