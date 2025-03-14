@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_flutter/constans.dart';
 import 'package:firebase_flutter/note/addnote.dart';
+import 'package:firebase_flutter/note/editnote.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -74,31 +75,12 @@ class _ViewpageState extends State<Viewpage> {
                             crossAxisCount: 2, mainAxisExtent: 160),
                     itemBuilder: (BuildContext context, int index) {
                       return InkWell(
-                        onLongPress: () {
-                          AwesomeDialog(
-                                  // ignore: use_build_context_synchronously
-                                  context: context,
-                                  dialogType: DialogType.warning,
-                                  animType: AnimType.rightSlide,
-                                  title: 'Error',
-                                  desc: 'what do you want ! ',
-                                  btnCancelText: "delete",
-                                  btnOkText: "update",
-                                  btnCancelOnPress: () async {
-                                    /*await FirebaseFirestore.instance
-                                .collection('categoris')
-                                .doc(data[index].id)
-                                .delete();
-                            // ignore: use_build_context_synchronously
-                            Navigator.of(context)
-                                .pushReplacementNamed("homepage");*/
-                                  },
-                                  btnOkOnPress: () async {
-                                    /* Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => Updatecategoris(
-                                    docid: data[index].id, oldname : data[index]['name'])));*/
-                                  })
-                              .show();
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => Editnote(
+                                notedocId: data[index].id,
+                                categorydocId: widget.categoryId,
+                                oldnote: data[index]['note'])));
                         },
                         child: Card(
                           child: Container(
