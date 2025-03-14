@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_flutter/Categoris/update.dart';
 import 'package:firebase_flutter/constans.dart';
+import 'package:firebase_flutter/note/viewnote.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -68,6 +69,11 @@ class _HomepageState extends State<Homepage> {
                     crossAxisCount: 2, mainAxisExtent: 160),
                 itemBuilder: (BuildContext context, int index) {
                   return InkWell(
+                    onTap: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) =>
+                              Viewpage(categoryId: data[index].id)));
+                    },
                     onLongPress: () {
                       AwesomeDialog(
                           // ignore: use_build_context_synchronously
@@ -90,7 +96,8 @@ class _HomepageState extends State<Homepage> {
                           btnOkOnPress: () async {
                             Navigator.of(context).push(MaterialPageRoute(
                                 builder: (context) => Updatecategoris(
-                                    docid: data[index].id, oldname : data[index]['name'])));
+                                    docid: data[index].id,
+                                    oldname: data[index]['name'])));
                           }).show();
                     },
                     child: Card(
