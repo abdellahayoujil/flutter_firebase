@@ -101,6 +101,7 @@ class _SignUpState extends State<SignUp> {
               ],
             ),
           ),
+           Container(height: 30),
           CustomButtonAuth(
               title: "SignUp",
               onPressed: () async {
@@ -144,7 +145,6 @@ class _SignUpState extends State<SignUp> {
                   }
                 }
               }),
-          Container(height: 20),
           Container(height: 20),
           InkWell(
             onTap: () {

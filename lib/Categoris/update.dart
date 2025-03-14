@@ -44,6 +44,13 @@ class _UpdatecategorisState extends State<Updatecategoris> {
       }
     }
   }
+
+  @override
+  void dispose() {
+    super.dispose();
+    name.dispose();
+  }
+
   @override
   void initState() {
     super.initState();

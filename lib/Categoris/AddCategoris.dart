@@ -39,7 +39,11 @@ class _AddcategorisState extends State<Addcategoris> {
       }
     }
   }
-
+    @override
+  void dispose() {
+    super.dispose();
+    name.dispose();
+  }
   GlobalKey<FormState> formstate = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
