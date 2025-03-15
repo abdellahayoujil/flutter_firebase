@@ -75,12 +75,33 @@ class _ViewpageState extends State<Viewpage> {
                             crossAxisCount: 2, mainAxisExtent: 160),
                     itemBuilder: (BuildContext context, int index) {
                       return InkWell(
+                        onLongPress: () {
+                          AwesomeDialog(
+                              // ignore: use_build_context_synchronously
+                              context: context,
+                              dialogType: DialogType.warning,
+                              animType: AnimType.rightSlide,
+                              title: 'delete',
+                              desc: 'are you sure to delete this note! ',
+                              btnCancelOnPress: () async {},
+                              btnOkOnPress: () async {
+                                await FirebaseFirestore.instance
+                                    .collection('categoris')
+                                    .doc(widget.categoryId)
+                                    .collection("note")
+                                    .doc(data[index].id)
+                                    .delete();
+                                // ignore: use_build_context_synchronously
+                                Navigator.of(context)
+                                    .push(MaterialPageRoute(builder: (context) => Viewpage(categoryId: widget.categoryId)));
+                              }).show();
+                        },
                         onTap: () {
                           Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => Editnote(
-                                notedocId: data[index].id,
-                                categorydocId: widget.categoryId,
-                                oldnote: data[index]['note'])));
+                              builder: (context) => Editnote(
+                                  notedocId: data[index].id,
+                                  categorydocId: widget.categoryId,
+                                  oldnote: data[index]['note'])));
                         },
                         child: Card(
                           child: Container(
