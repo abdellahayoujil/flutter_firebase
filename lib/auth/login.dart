@@ -86,6 +86,7 @@ class _LoginState extends State<Login> {
                           }
                           return null;
                         },
+                        inputType: TextInputType.emailAddress,
                       ),
                       Container(height: 10),
                       const Text(
@@ -105,6 +106,7 @@ class _LoginState extends State<Login> {
                           }
                           return null;
                         },
+                        isPassword: true,
                       ),
                       Container(
                         margin: const EdgeInsets.only(top: 10, bottom: 20),

@@ -78,6 +78,7 @@ class _SignUpState extends State<SignUp> {
                     }
                     return null;
                   },
+                  inputType: TextInputType.emailAddress,
                 ),
                 Container(height: 10),
                 const Text(
@@ -97,6 +98,7 @@ class _SignUpState extends State<SignUp> {
                     }
                     return null;
                   },
+                  isPassword: true,
                 ),
               ],
             ),

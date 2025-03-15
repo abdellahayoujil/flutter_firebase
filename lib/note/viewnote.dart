@@ -1,4 +1,3 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -6,6 +5,7 @@ import 'package:firebase_flutter/constans.dart';
 import 'package:firebase_flutter/note/addnote.dart';
 import 'package:firebase_flutter/note/editnote.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class Viewpage extends StatefulWidget {
@@ -18,7 +18,6 @@ class Viewpage extends StatefulWidget {
 
 class _ViewpageState extends State<Viewpage> {
   List<QueryDocumentSnapshot> data = [];
-
   bool isLoading = true;
 
   getData() async {
@@ -41,83 +40,118 @@ class _ViewpageState extends State<Viewpage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: MyColors.myYellow,
-          onPressed: () {
-            Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => Addnote(docId: widget.categoryId)));
-          },
-          child: const Icon(Icons.add),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: MyColors.myYellow,
+        onPressed: () {
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => Addnote(docId: widget.categoryId)));
+        },
+        child: Icon(Icons.add, size: 28.sp), // Adjusted icon size
+      ),
+      appBar: AppBar(
+        title: Text(
+          'Home',
+          style: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold),
         ),
-        appBar: AppBar(
-          title: const Text('home'),
-          actions: [
-            IconButton(
-                onPressed: () async {
-                  GoogleSignIn googleSignIn = GoogleSignIn();
-                  googleSignIn.disconnect();
-                  await FirebaseAuth.instance.signOut();
-                  // ignore: use_build_context_synchronously
-                  Navigator.of(context)
-                      .pushNamedAndRemoveUntil("login", (route) => false);
-                },
-                icon: const Icon(Icons.logout))
-          ],
-        ),
-        // ignore: deprecated_member_use
-        body: WillPopScope(
-            child: isLoading
-                ? const Center(child: Text("Loading ..."))
-                : GridView.builder(
-                    itemCount: data.length,
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2, mainAxisExtent: 160),
-                    itemBuilder: (BuildContext context, int index) {
-                      return InkWell(
-                        onLongPress: () {
-                          AwesomeDialog(
-                              // ignore: use_build_context_synchronously
-                              context: context,
-                              dialogType: DialogType.warning,
-                              animType: AnimType.rightSlide,
-                              title: 'delete',
-                              desc: 'are you sure to delete this note! ',
-                              btnCancelOnPress: () async {},
-                              btnOkOnPress: () async {
-                                await FirebaseFirestore.instance
-                                    .collection('categoris')
-                                    .doc(widget.categoryId)
-                                    .collection("note")
-                                    .doc(data[index].id)
-                                    .delete();
-                                // ignore: use_build_context_synchronously
-                                Navigator.of(context)
-                                    .push(MaterialPageRoute(builder: (context) => Viewpage(categoryId: widget.categoryId)));
-                              }).show();
-                        },
-                        onTap: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => Editnote(
-                                  notedocId: data[index].id,
-                                  categorydocId: widget.categoryId,
-                                  oldnote: data[index]['note'])));
-                        },
-                        child: Card(
-                          child: Container(
-                            padding: const EdgeInsets.all(20),
-                            child: Column(
-                              children: [Text("${data[index]['note']}")],
-                            ),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.logout, size: 24.sp),
+            onPressed: () async {
+              GoogleSignIn googleSignIn = GoogleSignIn();
+              googleSignIn.disconnect();
+              await FirebaseAuth.instance.signOut();
+              // ignore: use_build_context_synchronously
+              Navigator.of(context)
+                  .pushNamedAndRemoveUntil("login", (route) => false);
+            },
+          ),
+        ],
+      ),
+      body: WillPopScope(
+        onWillPop: () async {
+          Navigator.of(context)
+              .pushNamedAndRemoveUntil("homepage", (route) => false);
+          return false;
+        },
+        child: isLoading
+            ? Center(
+                child: CircularProgressIndicator(
+                    color: MyColors.myYellow)) // Improved loading state
+            : Padding(
+                padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 10.h),
+                child: GridView.builder(
+                  itemCount: data.length,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 10.w,
+                    mainAxisSpacing: 10.h,
+                    mainAxisExtent: 160.h,
+                  ),
+                  itemBuilder: (BuildContext context, int index) {
+                    return GestureDetector(
+                      onLongPress: () {
+                        AwesomeDialog(
+                          context: context,
+                          dialogType: DialogType.warning,
+                          animType: AnimType.rightSlide,
+                          title: 'Delete',
+                          desc: 'Are you sure you want to delete this note?',
+                          btnCancelOnPress: () {},
+                          btnOkOnPress: () async {
+                            await FirebaseFirestore.instance
+                                .collection('categoris')
+                                .doc(widget.categoryId)
+                                .collection("note")
+                                .doc(data[index].id)
+                                .delete();
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) =>
+                                    Viewpage(categoryId: widget.categoryId)));
+                          },
+                        ).show();
+                      },
+                      onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => Editnote(
+                                notedocId: data[index].id,
+                                categorydocId: widget.categoryId,
+                                oldnote: data[index]['note'])));
+                      },
+                      child: Card(
+                        elevation: 5, // Add elevation for a modern look
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15.r),
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.all(15.sp),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "${data[index]['note']}",
+                                style: TextStyle(
+                                  fontSize: 16.sp,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.black87,
+                                ),
+                                maxLines: 4,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              Spacer(),
+                              Align(
+                                alignment: Alignment.bottomRight,
+                                child: Icon(Icons.edit,
+                                    size: 20.sp, color: MyColors.myYellow),
+                              ),
+                            ],
                           ),
                         ),
-                      );
-                    },
-                  ),
-            onWillPop: () {
-              Navigator.of(context)
-                  .pushNamedAndRemoveUntil("homepage", (route) => false);
-              return Future.value(false);
-            }));
+                      ),
+                    );
+                  },
+                ),
+              ),
+      ),
+    );
   }
 }

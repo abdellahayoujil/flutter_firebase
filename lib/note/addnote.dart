@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_flutter/components/custombuttonauth.dart';
-import 'package:firebase_flutter/components/customformfield.dart';
+import 'package:firebase_flutter/components/CustomTextArea.dart';
+import 'package:firebase_flutter/components/custombuttonadd.dart';
 import 'package:firebase_flutter/note/viewnote.dart';
 import 'package:flutter/material.dart';
 
@@ -63,7 +63,7 @@ class _AddnoteState extends State<Addnote> {
                     Container(
                       padding: const EdgeInsets.symmetric(
                           vertical: 20, horizontal: 25),
-                      child: CustomformfieldAdd(
+                      child: CustomTextArea(
                           hinttext: "Enter your note",
                           mycontroller: note,
                           validator: (val) {
@@ -73,7 +73,7 @@ class _AddnoteState extends State<Addnote> {
                             return null;
                           }),
                     ),
-                    CustomButtonAuth(
+                    CustomButtonadd(
                       title: "Add",
                       onPressed: () {
                         addNote();

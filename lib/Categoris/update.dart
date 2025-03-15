@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_flutter/components/custombuttonadd.dart';
 import 'package:firebase_flutter/components/custombuttonauth.dart';
 import 'package:firebase_flutter/components/customformfield.dart';
 import 'package:flutter/material.dart';
@@ -78,7 +79,7 @@ class _UpdatecategorisState extends State<Updatecategoris> {
                       return null;
                     }),
               ),
-              CustomButtonAuth(
+              CustomButtonadd(
                 title: "Add",
                 onPressed: () {
                   Updatecategoris();

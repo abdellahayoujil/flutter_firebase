@@ -1,4 +1,3 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -7,6 +6,7 @@ import 'package:firebase_flutter/constans.dart';
 import 'package:firebase_flutter/note/viewnote.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class Homepage extends StatefulWidget {
   const Homepage({super.key});
@@ -17,7 +17,6 @@ class Homepage extends StatefulWidget {
 
 class _HomepageState extends State<Homepage> {
   List<QueryDocumentSnapshot> data = [];
-
   bool isLoading = true;
 
   getData() async {
@@ -39,107 +38,123 @@ class _HomepageState extends State<Homepage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: MyColors.myYellow,
-          onPressed: () {
-            Navigator.of(context).pushNamed("addcategory");
-          },
-          child: const Icon(Icons.add),
-        ),
-        appBar: AppBar(
-          title: const Text('Firebase Install'),
-          actions: [
-            IconButton(
-                onPressed: () async {
-                  GoogleSignIn googleSignIn = GoogleSignIn();
-                  googleSignIn.disconnect();
-                  await FirebaseAuth.instance.signOut();
-                  // ignore: use_build_context_synchronously
-                  Navigator.of(context)
-                      .pushNamedAndRemoveUntil("login", (route) => false);
-                },
-                icon: const Icon(Icons.logout))
-          ],
-        ),
-        body: isLoading
-            ? const Center(child: Text("Loading ..."))
-            : GridView.builder(
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: MyColors.myYellow,
+        onPressed: () {
+          Navigator.of(context).pushNamed("addcategory");
+        },
+        child: Icon(Icons.add, size: 30.sp),
+      ),
+      appBar: AppBar(
+        title: Text('Firebase Install', style: TextStyle(fontSize: 22.sp)),
+        backgroundColor: MyColors.myYellow,
+        actions: [
+          IconButton(
+            onPressed: () async {
+              GoogleSignIn googleSignIn = GoogleSignIn();
+              googleSignIn.disconnect();
+              await FirebaseAuth.instance.signOut();
+              Navigator.of(context)
+                  .pushNamedAndRemoveUntil("login", (route) => false);
+            },
+            icon: Icon(Icons.logout, size: 25.sp),
+          ),
+        ],
+      ),
+      body: isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : Padding(
+              padding: EdgeInsets.all(12.w),
+              child: GridView.builder(
                 itemCount: data.length,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2, mainAxisExtent: 160),
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  mainAxisSpacing: 16.h,
+                  crossAxisSpacing: 16.w,
+                  childAspectRatio: 0.8,
+                ),
                 itemBuilder: (BuildContext context, int index) {
                   return InkWell(
                     onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) =>
-                              Viewpage(categoryId: data[index].id)));
+                        builder: (context) =>
+                            Viewpage(categoryId: data[index].id),
+                      ));
                     },
                     onLongPress: () {
                       AwesomeDialog(
-                          // ignore: use_build_context_synchronously
-                          context: context,
-                          dialogType: DialogType.warning,
-                          animType: AnimType.rightSlide,
-                          title: 'Error',
-                          desc: 'what do you want ! ',
-                          btnCancelText: "delete",
-                          btnOkText: "update",
-                          btnCancelOnPress: () async {
-                            await FirebaseFirestore.instance
-                                .collection('categoris')
-                                .doc(data[index].id)
-                                .delete();
-                            // ignore: use_build_context_synchronously
-                            Navigator.of(context)
-                                .pushReplacementNamed("homepage");
-                          },
-                          btnOkOnPress: () async {
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => Updatecategoris(
-                                    docid: data[index].id,
-                                    oldname: data[index]['name'])));
-                          }).show();
+                        context: context,
+                        dialogType: DialogType.warning,
+                        animType: AnimType.rightSlide,
+                        title: 'Options',
+                        desc: 'What do you want to do?',
+                        btnCancelText: "Delete",
+                        btnOkText: "Update",
+                        btnCancelOnPress: () async {
+                          await FirebaseFirestore.instance
+                              .collection('categoris')
+                              .doc(data[index].id)
+                              .delete();
+                          Navigator.of(context)
+                              .pushReplacementNamed("homepage");
+                        },
+                        btnOkOnPress: () async {
+                          Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => Updatecategoris(
+                              docid: data[index].id,
+                              oldname: data[index]['name'],
+                            ),
+                          ));
+                        },
+                      ).show();
                     },
                     child: Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16.r),
+                      ),
+                      elevation: 8,
+                      // ignore: deprecated_member_use
+                      shadowColor: Colors.black.withOpacity(0.1),
+                      color: Colors.white,
                       child: Container(
-                        padding: const EdgeInsets.all(15),
+                        padding: EdgeInsets.all(16.w),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(16.r),
+                          gradient: LinearGradient(
+                            colors: [
+                              Colors.blue.shade50,
+                              Colors.blue.shade100,
+                            ],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                          ),
+                        ),
                         child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Image.asset(
                               "images/fl.png",
-                              height: 100,
+                              height: 100.h,
+                              width: 100.w,
                             ),
-                            Text("${data[index]['name']}")
+                            SizedBox(height: 10.h),
+                            Text(
+                              "${data[index]['name']}",
+                              style: TextStyle(
+                                fontSize: 16.sp,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.blue.shade900,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
                           ],
                         ),
                       ),
                     ),
                   );
                 },
-
-                /*FirebaseAuth.instance.currentUser!.emailVerified
-            ? const Text("succesfuly verifed")
-            : MaterialButton(
-              textColor: Colors.white,
-              color: Colors.red,
-              onPressed: (){
-                FirebaseAuth.instance.currentUser!.sendEmailVerification();
-            },child: const Text("please verifed Email"),)
-
-            Card(
-              child: Container(
-                padding: EdgeInsets.all(15),
-                child: Column(
-                  children: [
-                    Image.asset(
-                      "images/fl.png",
-                      height: 100,
-                    ),
-                    Text("Favorit")
-                  ],
-                ),
               ),
-            )*/
-              ));
+            ),
+    );
   }
 }
