@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CustomTextForm extends StatelessWidget {
   final String hinttext ; 
@@ -6,24 +7,30 @@ class CustomTextForm extends StatelessWidget {
   final String? Function(String?)? validator;
   const CustomTextForm({super.key, required this.hinttext, required this.mycontroller, required this.validator});
 
-  @override
+   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      style: TextStyle(fontSize: 14.sp),
       validator: validator,
-      controller: mycontroller ,
+      controller: mycontroller,
       decoration: InputDecoration(
-          hintText: hinttext,
-          hintStyle: const TextStyle(fontSize: 14, color: Colors.grey),
-          contentPadding: const EdgeInsets.symmetric(vertical: 2, horizontal: 20),
-          filled: true,
-          fillColor: Colors.grey[200],
-          border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(50),
-              borderSide:
-                  const BorderSide(color: Color.fromARGB(255, 184, 184, 184))),
-          enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(50),
-              borderSide: const BorderSide(color: Colors.grey))),
+        hintText: hinttext,
+        hintStyle: TextStyle(fontSize: 14.sp, color: Colors.grey),
+        contentPadding: EdgeInsets.symmetric(
+          vertical: 12.h,
+          horizontal: 20.w,
+        ),
+        filled: true,
+        fillColor: Colors.grey[200],
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(50.r),
+          borderSide: const BorderSide(color: Colors.grey),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(50.r),
+          borderSide: const BorderSide(color: Colors.grey),
+        ),
+      ),
     );
   }
 }
