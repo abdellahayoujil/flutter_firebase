@@ -123,7 +123,7 @@ class _HomepageState extends State<Homepage> {
                           gradient: LinearGradient(
                             colors: [
                               Colors.blue.shade50,
-                              Colors.blue.shade100,
+                              const Color.fromARGB(255, 144, 205, 255),
                             ],
                             begin: Alignment.topLeft,
                             end: Alignment.bottomRight,
@@ -140,10 +140,11 @@ class _HomepageState extends State<Homepage> {
                             SizedBox(height: 10.h),
                             Text(
                               "${data[index]['name']}",
+                              maxLines: 1,
                               style: TextStyle(
                                 fontSize: 16.sp,
                                 fontWeight: FontWeight.bold,
-                                color: Colors.blue.shade900,
+                                color: const Color.fromARGB(255, 255, 255, 255),
                               ),
                               textAlign: TextAlign.center,
                             ),

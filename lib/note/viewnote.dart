@@ -46,7 +46,7 @@ class _ViewpageState extends State<Viewpage> {
           Navigator.of(context).push(MaterialPageRoute(
               builder: (context) => Addnote(docId: widget.categoryId)));
         },
-        child: Icon(Icons.add, size: 28.sp), // Adjusted icon size
+        child: Icon(Icons.add, size: 28.sp), 
       ),
       appBar: AppBar(
         title: Text(
@@ -67,6 +67,7 @@ class _ViewpageState extends State<Viewpage> {
           ),
         ],
       ),
+      // ignore: deprecated_member_use
       body: WillPopScope(
         onWillPop: () async {
           Navigator.of(context)
@@ -74,7 +75,7 @@ class _ViewpageState extends State<Viewpage> {
           return false;
         },
         child: isLoading
-            ? Center(
+            ? const Center(
                 child: CircularProgressIndicator(
                     color: MyColors.myYellow)) // Improved loading state
             : Padding(
@@ -104,6 +105,7 @@ class _ViewpageState extends State<Viewpage> {
                                 .collection("note")
                                 .doc(data[index].id)
                                 .delete();
+                            // ignore: use_build_context_synchronously
                             Navigator.of(context).push(MaterialPageRoute(
                                 builder: (context) =>
                                     Viewpage(categoryId: widget.categoryId)));
@@ -137,7 +139,7 @@ class _ViewpageState extends State<Viewpage> {
                                 maxLines: 4,
                                 overflow: TextOverflow.ellipsis,
                               ),
-                              Spacer(),
+                              const Spacer(),
                               Align(
                                 alignment: Alignment.bottomRight,
                                 child: Icon(Icons.edit,

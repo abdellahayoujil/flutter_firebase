@@ -1,3 +1,4 @@
+import 'package:firebase_flutter/constans.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -19,27 +20,29 @@ class CustomformfieldAdd extends StatelessWidget {
       validator: validator,
       controller: mycontroller,
       style: TextStyle(fontSize: 14.sp),
-      decoration: InputDecoration(
-        hintText: hinttext,
-        hintStyle: TextStyle(
-          fontSize: 14.sp,
-          color: Colors.grey,
+      cursorColor: MyColors.myYellowgrey, 
+        decoration: InputDecoration(
+          hintText: hinttext,
+          hintStyle: TextStyle(fontSize: 14.sp, color: Colors.grey),
+          contentPadding: EdgeInsets.symmetric(
+            vertical: 12.h,
+            horizontal: 20.w,
+          ),
+          filled: true,
+          fillColor: Colors.grey[200],
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(20.r),
+            borderSide: const BorderSide(color: MyColors.myYellowgrey),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(20.r),
+            borderSide: const BorderSide(color: MyColors.myYellowgrey),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(20.r),
+            borderSide: const BorderSide(color: MyColors.myYellowgrey, width: 2),
+          ),
         ),
-        contentPadding: EdgeInsets.symmetric(
-          vertical: 2.h,
-          horizontal: 20.w,
-        ),
-        filled: true,
-        fillColor: Colors.grey[200],
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(50.r),
-          borderSide: const BorderSide(color: Color.fromARGB(255, 184, 184, 184)),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(50.r),
-          borderSide: const BorderSide(color: Colors.grey),
-        ),
-      ),
     );
   }
 }
