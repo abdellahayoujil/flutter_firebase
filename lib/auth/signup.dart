@@ -130,6 +130,7 @@ class _SignUpState extends State<SignUp> {
                             onPressed: () async {
                               if (formstate.currentState!.validate()) {
                                 try {
+                                  // ignore: unused_local_variable
                                   final credential = await FirebaseAuth.instance
                                       .createUserWithEmailAndPassword(
                                     email: email.text,
