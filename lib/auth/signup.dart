@@ -27,7 +27,7 @@ class _SignUpState extends State<SignUp> {
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            colors: [Color.fromARGB(255, 254, 224, 134), MyColors.myYellow],
+            colors: [MyColors.myYellowlight, MyColors.myYellow],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
@@ -39,16 +39,16 @@ class _SignUpState extends State<SignUp> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  CustomLogoAuth(),
+                  const CustomLogoAuth(),
                   SizedBox(height: 20.h),
                   Container(
                     padding: EdgeInsets.all(20.w),
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: MyColors.myWhite,
                       borderRadius: BorderRadius.circular(20.r),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black26,
+                          color: MyColors.myblacklight,
                           blurRadius: 10.r,
                           spreadRadius: 2.r,
                         )
@@ -69,7 +69,7 @@ class _SignUpState extends State<SignUp> {
                           SizedBox(height: 10.h),
                           Center(
                             child: Text("SignUp To Continue Using The App",
-                                style: TextStyle(color: Colors.grey, fontSize: 14.sp)),
+                                style: TextStyle(color: MyColors.mygrey, fontSize: 14.sp)),
                           ),
                           SizedBox(height: 20.h),
                           Text("Username",
@@ -136,6 +136,7 @@ class _SignUpState extends State<SignUp> {
                                     password: password.text,
                                   );
                                   FirebaseAuth.instance.currentUser!.sendEmailVerification();
+                                  // ignore: use_build_context_synchronously
                                   Navigator.of(context).pushReplacementNamed("login");
                                 } on FirebaseAuthException catch (e) {
                                   String errorMessage;
@@ -147,6 +148,7 @@ class _SignUpState extends State<SignUp> {
                                     errorMessage = 'An unexpected error occurred: ${e.message}';
                                   }
                                   AwesomeDialog(
+                                    // ignore: use_build_context_synchronously
                                     context: context,
                                     dialogType: DialogType.error,
                                     animType: AnimType.rightSlide,

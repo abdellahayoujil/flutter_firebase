@@ -57,16 +57,16 @@ class _LoginState extends State<Login> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        CustomLogoAuth(),
+                        const CustomLogoAuth(),
                         SizedBox(height: 20.h),
                         Container(
                           padding: EdgeInsets.all(20.w),
                           decoration: BoxDecoration(
-                            color: Colors.white,
+                            color: MyColors.myWhite,
                             borderRadius: BorderRadius.circular(20.r),
                             boxShadow: [
                               BoxShadow(
-                                color: Colors.black26,
+                                color: MyColors.myblacklight,
                                 blurRadius: 10.r,
                                 spreadRadius: 2.r,
                               ),
@@ -87,7 +87,7 @@ class _LoginState extends State<Login> {
                                 SizedBox(height: 10.h),
                                 Center(
                                   child: Text("Login To Continue Using The App",
-                                      style: TextStyle(color: Colors.grey, fontSize: 14.sp)),
+                                      style: TextStyle(color: MyColors.mygrey, fontSize: 14.sp)),
                                 ),
                                 SizedBox(height: 20.h),
                                 Text("Email",
@@ -177,6 +177,7 @@ class _LoginState extends State<Login> {
                                           await credential.user!.sendEmailVerification();
                                           if (!mounted) return;
                                           AwesomeDialog(
+                                            // ignore: use_build_context_synchronously
                                             context: context,
                                             dialogType: DialogType.info,
                                             animType: AnimType.rightSlide,
@@ -185,6 +186,7 @@ class _LoginState extends State<Login> {
                                           ).show();
                                         } else {
                                           if (!mounted) return;
+                                          // ignore: use_build_context_synchronously
                                           Navigator.pushReplacementNamed(context, "homepage");
                                         }
                                       } on FirebaseAuthException catch (e) {
@@ -195,6 +197,7 @@ class _LoginState extends State<Login> {
                                           message = 'Incorrect password';
                                         }
                                         AwesomeDialog(
+                                          // ignore: use_build_context_synchronously
                                           context: context,
                                           dialogType: DialogType.error,
                                           animType: AnimType.rightSlide,

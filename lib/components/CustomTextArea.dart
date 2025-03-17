@@ -37,7 +37,7 @@ class _CustomTextAreaState extends State<CustomTextArea> {
         cursorColor: MyColors.myYellowgrey, 
         decoration: InputDecoration(
           hintText: widget.hinttext,
-          hintStyle: TextStyle(fontSize: 14.sp, color: Colors.grey),
+          hintStyle: TextStyle(fontSize: 14.sp, color: MyColors.mygrey),
           contentPadding: EdgeInsets.symmetric(
             vertical: 12.h,
             horizontal: 20.w,

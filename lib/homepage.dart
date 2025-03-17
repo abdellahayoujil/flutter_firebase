@@ -46,7 +46,7 @@ class _HomepageState extends State<Homepage> {
         child: Icon(Icons.add, size: 30.sp),
       ),
       appBar: AppBar(
-        title: Text('Firebase Install', style: TextStyle(fontSize: 22.sp)),
+        title: Text('Home Page', style: TextStyle(fontSize: 22.sp)),
         backgroundColor: MyColors.myYellow,
         actions: [
           IconButton(
@@ -54,6 +54,7 @@ class _HomepageState extends State<Homepage> {
               GoogleSignIn googleSignIn = GoogleSignIn();
               googleSignIn.disconnect();
               await FirebaseAuth.instance.signOut();
+              // ignore: use_build_context_synchronously
               Navigator.of(context)
                   .pushNamedAndRemoveUntil("login", (route) => false);
             },
@@ -95,6 +96,7 @@ class _HomepageState extends State<Homepage> {
                               .collection('categoris')
                               .doc(data[index].id)
                               .delete();
+                          // ignore: use_build_context_synchronously
                           Navigator.of(context)
                               .pushReplacementNamed("homepage");
                         },
@@ -114,16 +116,16 @@ class _HomepageState extends State<Homepage> {
                       ),
                       elevation: 8,
                       // ignore: deprecated_member_use
-                      shadowColor: Colors.black.withOpacity(0.1),
-                      color: Colors.white,
+                      shadowColor: MyColors.myblack.withOpacity(0.1),
+                      color: MyColors.myWhite,
                       child: Container(
                         padding: EdgeInsets.all(16.w),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(16.r),
-                          gradient: LinearGradient(
+                          gradient: const LinearGradient(
                             colors: [
-                              Colors.blue.shade50,
-                              const Color.fromARGB(255, 144, 205, 255),
+                              MyColors.myWhite,
+                              MyColors.myYellow,
                             ],
                             begin: Alignment.topLeft,
                             end: Alignment.bottomRight,
@@ -144,7 +146,7 @@ class _HomepageState extends State<Homepage> {
                               style: TextStyle(
                                 fontSize: 16.sp,
                                 fontWeight: FontWeight.bold,
-                                color: const Color.fromARGB(255, 255, 255, 255),
+                                color: MyColors.myWhite,
                               ),
                               textAlign: TextAlign.center,
                             ),

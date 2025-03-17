@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_flutter/components/CustomTextArea.dart';
 import 'package:firebase_flutter/components/custombuttonadd.dart';
-import 'package:firebase_flutter/components/custombuttonauth.dart';
 import 'package:firebase_flutter/note/viewnote.dart';
 import 'package:flutter/material.dart';
 

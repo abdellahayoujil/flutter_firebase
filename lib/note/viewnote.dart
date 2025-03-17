@@ -77,7 +77,7 @@ class _ViewpageState extends State<Viewpage> {
         child: isLoading
             ? const Center(
                 child: CircularProgressIndicator(
-                    color: MyColors.myYellow)) // Improved loading state
+                    color: MyColors.myYellow))
             : Padding(
                 padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 10.h),
                 child: GridView.builder(
@@ -120,7 +120,7 @@ class _ViewpageState extends State<Viewpage> {
                                 oldnote: data[index]['note'])));
                       },
                       child: Card(
-                        elevation: 5, // Add elevation for a modern look
+                        elevation: 5, 
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(15.r),
                         ),
@@ -134,7 +134,7 @@ class _ViewpageState extends State<Viewpage> {
                                 style: TextStyle(
                                   fontSize: 16.sp,
                                   fontWeight: FontWeight.w500,
-                                  color: Colors.black87,
+                                  color: MyColors.myblack,
                                 ),
                                 maxLines: 4,
                                 overflow: TextOverflow.ellipsis,
