@@ -52,35 +52,37 @@ class _AddnoteState extends State<Addnote> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text("Add Note")),
-      body: Form(
-          key: formstate,
-          child: isLoading
-              ? const Center(
-                  child: CircularProgressIndicator(),
-                )
-              : Column(
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 20, horizontal: 25),
-                      child: CustomTextArea(
-                          hinttext: "Enter your note",
-                          mycontroller: note,
-                          validator: (val) {
-                            if (val == "") {
-                              return "can't to be empty";
-                            }
-                            return null;
-                          }),
-                    ),
-                    CustomButtonadd(
-                      title: "Add",
-                      onPressed: () {
-                        addNote();
-                      },
-                    )
-                  ],
-                )),
+      body: SingleChildScrollView(
+        child: Form(
+            key: formstate,
+            child: isLoading
+                ? const Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : Column(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 20, horizontal: 25),
+                        child: CustomTextArea(
+                            hinttext: "Enter your note",
+                            mycontroller: note,
+                            validator: (val) {
+                              if (val == "") {
+                                return "can't to be empty";
+                              }
+                              return null;
+                            }),
+                      ),
+                      CustomButtonadd(
+                        title: "Add",
+                        onPressed: () {
+                          addNote();
+                        },
+                      )
+                    ],
+                  )),
+      ),
     );
   }
 }

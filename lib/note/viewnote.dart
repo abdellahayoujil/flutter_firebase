@@ -1,12 +1,10 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_flutter/constans.dart';
 import 'package:firebase_flutter/note/addnote.dart';
 import 'package:firebase_flutter/note/editnote.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 
 class Viewpage extends StatefulWidget {
   final String categoryId;
@@ -50,10 +48,10 @@ class _ViewpageState extends State<Viewpage> {
       ),
       appBar: AppBar(
         title: Text(
-          'Home',
+          'Notes',
           style: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold),
         ),
-        actions: [
+       /* actions: [
           IconButton(
             icon: Icon(Icons.logout, size: 24.sp),
             onPressed: () async {
@@ -65,7 +63,7 @@ class _ViewpageState extends State<Viewpage> {
                   .pushNamedAndRemoveUntil("login", (route) => false);
             },
           ),
-        ],
+        ],*/
       ),
       // ignore: deprecated_member_use
       body: WillPopScope(
@@ -136,7 +134,7 @@ class _ViewpageState extends State<Viewpage> {
                                   fontWeight: FontWeight.w500,
                                   color: MyColors.myblack,
                                 ),
-                                maxLines: 4,
+                                maxLines: 6,
                                 overflow: TextOverflow.ellipsis,
                               ),
                               const Spacer(),

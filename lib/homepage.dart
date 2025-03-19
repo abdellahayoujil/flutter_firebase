@@ -46,11 +46,9 @@ class _HomepageState extends State<Homepage> {
               height: 180.h,
               child: UserAccountsDrawerHeader(
                 accountName: const Text("Welcome!",
-                    style:
-                        TextStyle(fontSize: 20, color: MyColors.myWhite)),
+                    style: TextStyle(fontSize: 20, color: MyColors.myWhite)),
                 accountEmail: Text(user?.email ?? "No Email Found",
-                    style: TextStyle(
-                        fontSize: 18.sp, color: MyColors.myWhite)),
+                    style: TextStyle(fontSize: 18.sp, color: MyColors.myWhite)),
                 currentAccountPicture: const CustomLogoAuth(),
                 decoration: const BoxDecoration(
                   color: MyColors.myYellow,
@@ -74,14 +72,26 @@ class _HomepageState extends State<Homepage> {
             ),
             ListTile(
               leading: Icon(Icons.logout, size: 25.sp, color: MyColors.myblack),
-              title: Text("logout", style: TextStyle(fontSize: 18.sp)),
+              title: Text("Logout", style: TextStyle(fontSize: 18.sp)),
               onTap: () async {
-                GoogleSignIn googleSignIn = GoogleSignIn();
-                googleSignIn.disconnect();
-                await FirebaseAuth.instance.signOut();
-                // ignore: use_build_context_synchronously
-                Navigator.of(context)
-                    .pushNamedAndRemoveUntil("login", (route) => false);
+                AwesomeDialog(
+                  context: context,
+                  dialogType: DialogType.warning,
+                  animType: AnimType.rightSlide,
+                  title: 'Confirm Action',
+                  desc: 'Are you sure you want to log out?',
+                  btnCancelText: "Cancel",
+                  btnOkText: "Logout",
+                  btnCancelOnPress: () {},
+                  btnOkOnPress: () async {
+                    GoogleSignIn googleSignIn = GoogleSignIn();
+                    googleSignIn.disconnect();
+                    await FirebaseAuth.instance.signOut();
+                    // ignore: use_build_context_synchronously
+                    Navigator.of(context)
+                        .pushNamedAndRemoveUntil("login", (route) => false);
+                  },
+                ).show();
               },
             ),
             ListTile(
@@ -104,7 +114,7 @@ class _HomepageState extends State<Homepage> {
       appBar: AppBar(
         title: Text('Home Page', style: TextStyle(fontSize: 22.sp)),
         backgroundColor: MyColors.myYellow,
-        actions: [
+        /*actions: [
           IconButton(
             onPressed: () async {
               GoogleSignIn googleSignIn = GoogleSignIn();
@@ -116,7 +126,7 @@ class _HomepageState extends State<Homepage> {
             },
             icon: Icon(Icons.logout, size: 25.sp),
           ),
-        ],
+        ],*/
       ),
       body: isLoading
           ? const Center(child: CircularProgressIndicator())

@@ -25,7 +25,7 @@ class _CustomTextAreaState extends State<CustomTextArea> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 300.h, 
+      height: 320.h, 
       child: TextFormField(
         style: TextStyle(fontSize: 17.sp),
         validator: widget.validator,
