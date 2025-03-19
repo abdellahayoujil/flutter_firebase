@@ -2,6 +2,7 @@ import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_flutter/Categoris/update.dart';
+import 'package:firebase_flutter/components/customlogoauth.dart';
 import 'package:firebase_flutter/constans.dart';
 import 'package:firebase_flutter/note/viewnote.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +19,7 @@ class Homepage extends StatefulWidget {
 class _HomepageState extends State<Homepage> {
   List<QueryDocumentSnapshot> data = [];
   bool isLoading = true;
-
+  User? user = FirebaseAuth.instance.currentUser;
   getData() async {
     QuerySnapshot querySnapshot = await FirebaseFirestore.instance
         .collection('categoris')
@@ -38,6 +39,61 @@ class _HomepageState extends State<Homepage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: Drawer(
+        child: Column(
+          children: [
+            SizedBox(
+              height: 180.h,
+              child: UserAccountsDrawerHeader(
+                accountName: const Text("Welcome!",
+                    style:
+                        TextStyle(fontSize: 20, color: MyColors.myWhite)),
+                accountEmail: Text(user?.email ?? "No Email Found",
+                    style: TextStyle(
+                        fontSize: 18.sp, color: MyColors.myWhite)),
+                currentAccountPicture: const CustomLogoAuth(),
+                decoration: const BoxDecoration(
+                  color: MyColors.myYellow,
+                ),
+              ),
+            ),
+            ListTile(
+              leading: Icon(Icons.home, size: 25.sp, color: MyColors.myblack),
+              title: Text("Accueil", style: TextStyle(fontSize: 18.sp)),
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.notifications,
+                  size: 25.sp, color: MyColors.myblack),
+              title: Text("Notification", style: TextStyle(fontSize: 18.sp)),
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.logout, size: 25.sp, color: MyColors.myblack),
+              title: Text("logout", style: TextStyle(fontSize: 18.sp)),
+              onTap: () async {
+                GoogleSignIn googleSignIn = GoogleSignIn();
+                googleSignIn.disconnect();
+                await FirebaseAuth.instance.signOut();
+                // ignore: use_build_context_synchronously
+                Navigator.of(context)
+                    .pushNamedAndRemoveUntil("login", (route) => false);
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.info, size: 25.sp, color: MyColors.myblack),
+              title: Text("About", style: TextStyle(fontSize: 18.sp)),
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        ),
+      ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: MyColors.myYellow,
         onPressed: () {
