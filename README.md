@@ -3,6 +3,7 @@
 
 A Flutter application that lets users sign up, log in (via Email/Password or Google), manage notes within categorized folders, and enjoy a polished responsive UI. Built using Firebase Authentication and Cloud Firestore.
 
+
 🚀 Features
 
 ✅ Authentication
@@ -17,6 +18,8 @@ A Flutter application that lets users sign up, log in (via Email/Password or Goo
 
 🔒 Auto-login for verified users
 
+
+
 📝 Notes & Categories
 
 🗃️ Create, edit, and delete categories
@@ -27,6 +30,8 @@ A Flutter application that lets users sign up, log in (via Email/Password or Goo
 
 📁 Structured as categoris/{user_id}/note/{note_id}
 
+
+
 🎨 UI/UX
 
 🖼️ Custom and responsive UI using flutter_screenutil
@@ -36,6 +41,8 @@ A Flutter application that lets users sign up, log in (via Email/Password or Goo
 🧩 Reusable widgets for buttons, forms, and text areas
 
 🧠 Confirmation dialogs via awesome_dialog
+
+
 
 📂 Project Structure
 
@@ -56,6 +63,7 @@ firebase_flutter/
 ├── main.dart           # App entry point
 
 
+
 🛠️ Tech Stack
 
 Flutter 🐦
@@ -69,6 +77,8 @@ Cloud Firestore ☁️
 flutter_screenutil 📏
 
 awesome_dialog 💬
+
+
 
 🧪 Getting Started
 
@@ -91,6 +101,9 @@ Make sure Firebase Auth and Firestore are enabled in your Firebase project.
 Run the app:
 
 flutter run
+
+
+
 🔐 Firebase Setup Checklist
 
 Firebase Core initialized in main.dart
@@ -102,6 +115,8 @@ Google Sign-In set up
 Firestore database rules configured
 
 App correctly handles verified/unverified users
+
+
 
 🧑‍💻 Author
 
