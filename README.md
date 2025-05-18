@@ -1,4 +1,5 @@
-🗂️ Firebase Notes App
+🗂️ Firebase Notes App 
+
 A Flutter application that lets users sign up, log in (via Email/Password or Google), manage notes within categorized folders, and enjoy a polished responsive UI. Built using Firebase Authentication and Cloud Firestore.
 
 🚀 Features
